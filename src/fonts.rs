@@ -181,7 +181,7 @@ impl FontFace {
     pub fn toy_create(family: &str, slant: FontSlant, weight: FontWeight) -> FontFace {
         let font_face = FontFace(
             unsafe {
-                ffi::cairo_toy_font_face_create(family.borrow_to_glib().0, slant, weight)
+                ffi::cairo_toy_font_face_create(family.lend_to_glib().0, slant, weight)
             }
         );
         font_face.ensure_status();
@@ -190,7 +190,7 @@ impl FontFace {
 
     pub fn toy_get_family(&self) -> Option<String> {
         unsafe {
-            FromGlibPtr::borrow(
+            FromGlibPtr::borrow_from_glib(
                 ffi::cairo_toy_font_face_get_family(self.get_ptr()))
         }
     }
